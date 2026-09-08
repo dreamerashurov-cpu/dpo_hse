@@ -5,28 +5,22 @@
 
 ## Установка и запуск
 
-1. Положи исходный файл выгрузки рядом со скриптами под именем `programs.xls`
-   (лист `TDSheet`, данные с 4-й строки).
-2. Скопируй `.env.example` в `.env` и вставь свой ключ OpenAI:
-   ```bash
-   cp .env.example .env
+1. Заполни `.env.example`:
    ```
-   Открой `.env` и впиши ключ: `OPENAI_API_KEY=sk-...`
-3. Запусти:
+   OPENAI_API_KEY=sk-...
+   PROGRAMS_FILE=programs.xls
+   ```
+   `OPENAI_API_KEY` — твой ключ OpenAI. `PROGRAMS_FILE` — путь к файлу
+   выгрузки (лист `TDSheet`, данные с 4-й строки); можно оставить как есть,
+   если файл лежит рядом со скриптами под именем `programs.xls`, или
+   указать другой путь.
+2. Запусти:
    ```bash
    make run
    ```
 
-Всё остальное (venv, зависимости, `programs.parquet`) `make run` создаёт
-и подхватывает сам при первом запуске.
-
-Без `make` — то же самое руками:
-```bash
-python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
-.venv/bin/python3 main.py
-```
-(ключ из `.env` подхватывается автоматически при запуске `main.py`)
+Всё остальное — venv, зависимости, копирование `.env.example` в `.env`,
+чтение `programs.xls` и построение `programs.parquet` — делает сам `make run`.
 
 ### Аргументы
 

@@ -8,10 +8,13 @@ $(PYTHON):
 	python3 -m venv $(VENV)
 	$(PIP) install -r requirements.txt
 
-run: $(PYTHON)
+.env: .env.example
+	cp .env.example .env
+
+run: $(PYTHON) .env
 	$(PYTHON) main.py
 
-skip-ai: $(PYTHON)
+skip-ai: $(PYTHON) .env
 	$(PYTHON) main.py --skip-ai
 
 clean:

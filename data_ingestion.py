@@ -1,9 +1,15 @@
+import os
 import pandas as pd
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
-# исходный файл ожидается рядом со скриптом, под этим именем
-RAW_PATH = BASE_DIR / "programs.xls"
+DEFAULT_RAW_PATH = BASE_DIR / "programs.xls"
+
+
+def get_raw_path() -> Path:
+    value = os.environ.get("PROGRAMS_FILE")
+    return Path(value) if value else DEFAULT_RAW_PATH
+
 
 COLUMN_MAP = {
     "Регистрационный номер": "program_id",
@@ -21,7 +27,7 @@ COLUMN_MAP = {
 
 
 def load_programs() -> pd.DataFrame:
-    df = pd.read_excel(RAW_PATH, sheet_name="TDSheet", header=3)
+    df = pd.read_excel(get_raw_path(), sheet_name="TDSheet", header=3)
     df = df[list(COLUMN_MAP.keys())].rename(columns=COLUMN_MAP)
 
     # числа в исходнике — с запятой как десятичным разделителем (рос. локаль)

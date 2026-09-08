@@ -37,7 +37,7 @@ def parse_args() -> argparse.Namespace:
 def load_or_ingest_programs() -> pd.DataFrame:
     programs_path = BASE_DIR / "programs.parquet"
     if not programs_path.exists():
-        print("programs.parquet не найден — запускаю ingestion из programs.xls...")
+        print(f"programs.parquet не найден — запускаю ingestion из {data_ingestion.get_raw_path()}...")
         programs = data_ingestion.load_programs()
         programs.to_parquet(programs_path, index=False)
     return pd.read_parquet(programs_path)
