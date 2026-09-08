@@ -1,5 +1,6 @@
 """Точка входа: данные ДПО НИУ ВШЭ -> дашборды + ИИ-прогноз."""
 import argparse
+import os
 from pathlib import Path
 
 import pandas as pd
@@ -10,6 +11,18 @@ import dashboard
 from gap_engine import compute_supply_index
 
 BASE_DIR = Path(__file__).resolve().parent
+
+
+def load_dotenv() -> None:
+    env_path = BASE_DIR / ".env"
+    if not env_path.exists():
+        return
+    for line in env_path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
 
 
 def parse_args() -> argparse.Namespace:
@@ -31,6 +44,7 @@ def load_or_ingest_programs() -> pd.DataFrame:
 
 
 def main() -> None:
+    load_dotenv()
     args = parse_args()
     output_dir = BASE_DIR / args.output_dir
     output_dir.mkdir(exist_ok=True)
