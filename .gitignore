@@ -1,0 +1,16 @@
+# venv
+.venv/
+__pycache__/
+*.pyc
+
+# исходные и сгенерированные данные
+programs.xls
+*.parquet
+output/
+*.png
+
+# секреты
+.env
+
+# system
+.DS_Store
